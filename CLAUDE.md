@@ -201,7 +201,7 @@ Di Vercel: Project Settings > Environment Variables, isi ketiganya.
 ## 12. Progres (perbarui setelah setiap langkah)
 
 - [x] 1. Setup project + proxy TMDB
-- [ ] 2. Tema, layout, bottom navbar liquid glass
+- [x] 2. Tema, layout, bottom navbar liquid glass
 - [ ] 3. Home
 - [ ] 4. Cari
 - [ ] 5. Detail (trailer + di mana menonton)
@@ -212,6 +212,7 @@ Di Vercel: Project Settings > Environment Variables, isi ketiganya.
 **Catatan keputusan/bug terbaru:**
 - Langkah 1 selesai. Versi terpasang: Vite 8, @vitejs/plugin-react 6, Tailwind 4, React 18, Router 6, React Query 5.
 - File penting: `api/tmdb/[...path].js` (whitelist + cache), `vite.config.js` (proxy dev), `src/lib/tmdb.js`.
-- `src/App.jsx` hanya halaman verifikasi sementara (Doctor-X); diganti di langkah 2/3.
-- Belum diuji dengan key TMDB asli: buat `.env` dari `.env.example`, jalankan `npm run dev`, lalu cek halaman menampilkan Doctor-X.
-- `src/hooks`, `src/components`, `src/pages`, `public` berisi `.gitkeep` sementara.
+- Langkah 2 selesai. `src/index.css` (token, latar, `.glass`), `src/App.jsx` (router + shell max-width 480px, `pb-28`), `src/components/BottomNav.jsx`, 7 halaman placeholder di `src/pages`. Halaman verifikasi Doctor-X dihapus; verifikasi key TMDB asli dilakukan di langkah 3.
+- `.glass` ada di `@layer components` agar utilitas Tailwind (mis. `fixed`) tetap menang; jangan dipindah keluar layer.
+- Gelembung navbar tanpa `backdrop-filter` (hanya navbar yang blur) demi performa; tab aktif tidak ada di `/detail` dan `/masuk` (gelembung disembunyikan).
+- `src/hooks` dan `public` masih berisi `.gitkeep` sementara.

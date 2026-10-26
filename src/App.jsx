@@ -1,23 +1,36 @@
-import { useQuery } from '@tanstack/react-query'
-import { tmdb, img } from './lib/tmdb'
+import { Routes, Route, Outlet } from 'react-router-dom'
+import BottomNav from './components/BottomNav'
+import Home from './pages/Home'
+import Search from './pages/Search'
+import Detail from './pages/Detail'
+import Watchlist from './pages/Watchlist'
+import History from './pages/History'
+import Profile from './pages/Profile'
+import Login from './pages/Login'
 
-// Halaman sementara untuk verifikasi proxy TMDB (langkah 1).
-export default function App() {
-  const { data, isPending, error } = useQuery({
-    queryKey: ['verifikasi', 'Doctor-X'],
-    queryFn: () => tmdb('search/multi', { query: 'Doctor-X' }),
-  })
-
-  if (isPending) return <p className="p-4">Memuat…</p>
-  if (error) return <p className="p-4">Gagal: {error.message}</p>
-
-  const first = data.results.find((r) => r.media_type === 'movie' || r.media_type === 'tv')
-  if (!first) return <p className="p-4">Tidak ada hasil.</p>
-
+function Shell() {
   return (
-    <div className="p-4">
-      <h1 className="text-xl font-bold">{first.title ?? first.name}</h1>
-      <img src={img(first.poster_path)} alt={`Poster ${first.title ?? first.name}`} className="mt-2 w-48" />
-    </div>
+    <>
+      <main className="mx-auto min-h-dvh w-full max-w-[480px] px-4 pt-6 pb-28">
+        <Outlet />
+      </main>
+      <BottomNav />
+    </>
+  )
+}
+
+export default function App() {
+  return (
+    <Routes>
+      <Route element={<Shell />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/cari" element={<Search />} />
+        <Route path="/detail/:type/:id" element={<Detail />} />
+        <Route path="/simpan" element={<Watchlist />} />
+        <Route path="/riwayat" element={<History />} />
+        <Route path="/profil" element={<Profile />} />
+        <Route path="/masuk" element={<Login />} />
+      </Route>
+    </Routes>
   )
 }
