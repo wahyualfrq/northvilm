@@ -202,8 +202,8 @@ Di Vercel: Project Settings > Environment Variables, isi ketiganya.
 
 - [x] 1. Setup project + proxy TMDB
 - [x] 2. Tema, layout, bottom navbar liquid glass
-- [ ] 3. Home
-- [ ] 4. Cari
+- [x] 3. Home
+- [x] 4. Cari
 - [ ] 5. Detail (trailer + di mana menonton)
 - [ ] 6. Supabase + login
 - [ ] 7. Simpan + Riwayat + progres
@@ -216,3 +216,11 @@ Di Vercel: Project Settings > Environment Variables, isi ketiganya.
 - `.glass` ada di `@layer components` agar utilitas Tailwind (mis. `fixed`) tetap menang; jangan dipindah keluar layer.
 - Gelembung navbar tanpa `backdrop-filter` (hanya navbar yang blur) demi performa; tab aktif tidak ada di `/detail` dan `/masuk` (gelembung disembunyikan).
 - `src/hooks` dan `public` masih berisi `.gitkeep` sementara.
+- Langkah 3 selesai, diuji dengan key TMDB asli (4 kategori memuat data). `src/lib/tmdb.js` kini berisi `FEEDS` + `fetchFeed`; `src/lib/format.js` berisi `normalize` (bentuk item seragam: id, type, title, year, rating, poster, backdrop) dan `metaLine`. Komponen baru: Chips, FeaturedCard, PosterCard, Skeleton, EmptyState (dipakai juga untuk error + tombol coba lagi), Footer.
+- Chip aktif disimpan di URL `/?f=drama|film|anime` (Trending = tanpa parameter) agar tombol back mempertahankan kategori.
+- Hanya badge rating di FeaturedCard yang memakai `.glass`; badge di PosterCard solid gelap agar grid tidak berisi puluhan elemen blur.
+- Footer baru berupa teks atribusi TMDB; logo TMDB belum ditambahkan (menunggu file dari brand assets TMDB, taruh di `public/`).
+- Langkah 4 selesai. `src/pages/Search.jsx`, `src/components/SearchBar.jsx`, `searchTitles` di `src/lib/tmdb.js`. Query disimpan di URL `/cari?q=` (debounce 400ms, `replace`), jadi back dari detail mempertahankan hasil. `PosterGridSkeleton` kini bersama di `Skeleton.jsx` (dipakai Home dan Cari).
+- Cari "Doctor-X": serial ドクターX muncul di halaman 1 hasil (urutan ke-11, setelah beberapa film lama berjudul "Doctor X"); hanya halaman 1 (20 hasil) yang dimuat. Cadangan "Doctor X Gekai Daimon Michiko" memberi serialnya di urutan pertama tetapi belum dipakai otomatis di kode.
+- Aturan fokus global `:focus-visible` ada di `@layer base` agar utilitas (mis. `outline-none` pada input) bisa menimpanya.
+- Sebagian judul tampil dalam aksara Jepang karena TMDB tidak punya terjemahan id-ID (perilaku bawaan TMDB, bukan bug).
